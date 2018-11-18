@@ -10,7 +10,13 @@ typedef struct SimpleDFSLinkedList SimpleDFSLinkedList;
 *****************/
 typedef struct TreeEdge {
 	int rep_start;
-	int rep_end;
+	int* rep_end; // L E F A
+	int internal_node_end; 
+	/* Als een edge die leidt naar een leaf node wordt afgesplitst, wijst de nieuwe interne node niet meer naar info.current als einde, 
+	   maar omdat ik wel nog met een pointer wil werken die kan worden gedereferenced, zal op dat moment internal_node_end naar de index
+	   van de splitsing worden gezet en zal rep_end vanaf dan naar deze variabele wijzen.
+	   Ik werk hiervoor ook met een interne variabele en niet gewoon een int pointer die bij de afsplitsing wordt aangemaakt omdat een nieuwe int
+	   pointer uit het geheugen verdwijnt na het uitvoeren van de splitsing.*/
 	TreeNode* parent;
 	TreeNode* child;
 } TreeEdge;
@@ -20,12 +26,14 @@ typedef struct TreeEdge {
 *****************/
 typedef struct TreeNode {
 	int rep_start;
-	int rep_end;
+	int* rep_end;
+	int internal_node_end;
 	/* De voorstelling wordt ook in de nodes bijgehouden om het makkelijker te maken bij de print functie.
 	Dit kan ook uit de edges worden afgeleid, maar dat zorgt voor meer werk in de print functie.*/
 	TreeEdge** edges;
 	/* array voor edges, lengte is 128 voor alle standaard ascii karakters 
 	(veronderstelling dat extended ascii niet wordt gebruikt)*/
+	TreeNode* suffix_link;
 } TreeNode;
 
 /*****************
@@ -74,10 +82,10 @@ SimpleDFSLinkedList* dfs_indexation(SimpleDFSLinkedList* node);
 SuffixTree* create_tree(char string[], int len);
 
 /* Maak nieuwe edge aan */
-TreeEdge* create_edge(int start, int end, TreeNode* parent, SuffixTree* tree);
+TreeEdge* create_edge(int start, int* end, TreeNode* parent, SuffixTree* tree);
 
 /* Maak nieuwe node aan */
-TreeNode* create_node(int start, int end);
+TreeNode* create_node(int start, int* end);
 
 /* Maak nieuwe info struct aan */
 UkkonenInfo* create_info(TreeNode* root);

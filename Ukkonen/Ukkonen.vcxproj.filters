@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SuffixTree.c">
+    <ClCompile Include="..\src\ukkonen\ukkonen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SuffixTree.h">
+    <ClInclude Include="..\src\ukkonen\ukkonen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

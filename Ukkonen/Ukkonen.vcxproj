@@ -115,10 +115,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="SuffixTree.h" />
+    <ClCompile Include="..\src\ukkonen\ukkonen.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SuffixTree.c" />
+    <ClInclude Include="..\src\ukkonen\ukkonen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
