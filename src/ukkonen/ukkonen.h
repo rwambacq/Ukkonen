@@ -1,120 +1,99 @@
-#ifndef _SUFFIXTREE_HEADER_
-#define _SUFFIXTREE_HEADER_
+/**GIVEN*CODE*******************************************************************
+ *
+ * DA3 - Ukkonen voorbeeldcode
+ *
+ * Je mag deze code gebruiken binnen jouw project en zoveel aanpassen als je
+ * zelf wilt. Bij vragen of problemen kun je de auteur contacteren.
+ *
+ * Door: Robbert Gurdeep Singh <Robbert.GurdeepSingh@UGent.be>
+ */
 
-typedef struct TreeNode TreeNode;
-typedef struct ActivePointer ActivePointer;
-typedef struct SimpleDFSLinkedList SimpleDFSLinkedList;
+/**
+ * Ukkonen tree
+ *
+ * Each node of the tree has a childs array that may be NULL (in that case you
+ * can use ukkonen_node_ensure_childs() to make sure that there is a childs
+ * array)
+ *
+ * These arrays can be indexed by chars using the CHILD() macro in operations.c
+ * (This will cast it to an unsigned char and subtract one). Do not pass <=0 to
+ * it.
+ *
+ **/
 
-/*****************
-*  Edge struct  *
-*****************/
-typedef struct TreeEdge {
-	int rep_start;
-	int* rep_end; // L E F A
-	int internal_node_end; 
-	/* Als een edge die leidt naar een leaf node wordt afgesplitst, wijst de nieuwe interne node niet meer naar info.current als einde, 
-	   maar omdat ik wel nog met een pointer wil werken die kan worden gedereferenced, zal op dat moment internal_node_end naar de index
-	   van de splitsing worden gezet en zal rep_end vanaf dan naar deze variabele wijzen.
-	   Ik werk hiervoor ook met een interne variabele en niet gewoon een int pointer die bij de afsplitsing wordt aangemaakt omdat een nieuwe int
-	   pointer uit het geheugen verdwijnt na het uitvoeren van de splitsing.*/
-	TreeNode* parent;
-	TreeNode* child;
-} TreeEdge;
+#pragma once
+#include <stdlib.h>
+// Not 128 because we do not include NUL '\0'
+#define BRANCHSIZE 127
 
-/*****************
-*  Node struct  *
-*****************/
-typedef struct TreeNode {
-	int rep_start;
-	int* rep_end;
-	int internal_node_end;
-	/* De voorstelling wordt ook in de nodes bijgehouden om het makkelijker te maken bij de print functie.
-	Dit kan ook uit de edges worden afgeleid, maar dat zorgt voor meer werk in de print functie.*/
-	TreeEdge** edges;
-	/* array voor edges, lengte is 128 voor alle standaard ascii karakters 
-	(veronderstelling dat extended ascii niet wordt gebruikt)*/
-	TreeNode* suffix_link;
-} TreeNode;
+// We will describe the leaf_it as -1
+#define UEND -1
+typedef enum { false = 0, true = 1 } bool;
+typedef struct UkkonenNode UkkonenNode;
 
-/*****************
-*  Tree struct  *
-*****************/
-typedef struct SuffixTree {
-	TreeNode* root;
-	char* string;
-	int len;
-} SuffixTree;
+/**
+ * A node in the tree and the edge *above* it.
+ * A node is a leaf if its ending is UEND
+ */
+typedef struct UkkonenNode {       /* and edge above */
+  int begin;                       /* negative for empty (root node) */
+  int ending;                      /* UEND for leaf_it */
+  struct UkkonenNode *suffix_link; /* NULL for none*/
+  struct UkkonenNode **childs; /* Array of childs (may be NULL) */
+  int rep_start;
+  UkkonenNode* parent;
+} UkkonenNode;
 
-/* Information struct, needed for ukkonen */
-typedef struct UkkonenInfo {
-	int curr;
-	ActivePointer* active_pointer;
-	int remaining;
-} UkkonenInfo;
+/**
+ * The status of the Ukkonen algorithm:
+ * - Pointer to where we are in the UkkonenTree (σ form the lecture notes)
+     (point, edge, offset)
+ * - Suffix-link that needs to be filled
+ * - The first non-leaf position
+ */
+typedef struct UkkonenStatus {
+  UkkonenNode *point;  // node below which we are
+  const char *edge;    // pointer to the edge to take
+  size_t offset;       // offset on the edge to take
 
-/* Active pointer, maakt deel uit van het ukkonen info struct */
-typedef struct ActivePointer {
-	TreeNode* active_node;
-	char active_edge;
-	int active_length;
-} ActivePointer;
+  UkkonenNode *
+      *suffix_hole;   // A pointer to the previous suffix-link that needs to be
+                      // filled (a pointer to a UkkonenNode*)
+  size_t start_from;  // The first none leaf suffix
+} UkkonenStatus;
 
-// Linked list struct om te helpen bij indexering in print DFS.
-typedef struct SimpleDFSLinkedList {
-	TreeNode* node;
-	SimpleDFSLinkedList* next;
-} SimpleDFSLinkedList;
+/**
+ * The UkkonenTree struct describes a root node and the leaf_it.
+ * A pointer to the original data (not malloced by ukkonen_make)
+ *
+ */
+typedef struct UkkonenTree {
+  const char *data;   // the text of the tree (not freed)
+  UkkonenNode *root;  // The root node
+  UkkonenStatus ap;   // A point in
+  unsigned int leaf_it;
+} UkkonenTree;
 
-/*****************
-* Help functions *
-*****************/
+/** Malloc a Ukkonen node and set fields */
+UkkonenNode *ukkonen_node_make(int begin, int end, UkkonenNode* parent, UkkonenTree* tree);
 
-char* allocate_string(int strlen);
+/** Free the space taken by the node and all its children */
+UkkonenNode *ukkonen_node_free(UkkonenNode *node);
 
-SimpleDFSLinkedList* dfs_indexation(SimpleDFSLinkedList* node); 
-// Maakt singly linked list van alle nodes in de boom in dfs volgorde
+/** Malloc a Ukkonen tree and its root. Set fields */
+UkkonenTree *ukkonen_make();
 
-/*****************
-* Main functies *
-*****************/
+/** Free the space taken by the tree and all its nodes (data is not freed!) */
+int ukkonen_free(UkkonenTree *tree);
 
-/* Maak nieuwe boom aan */
-SuffixTree* create_tree(char string[], int len);
+/** Ensure that the children array of node is not empty */
+UkkonenNode *ukkonen_node_ensure_childs(UkkonenNode *node);
 
-/* Maak nieuwe edge aan */
-TreeEdge* create_edge(int start, int* end, TreeNode* parent, SuffixTree* tree);
+/** Print the ukkonen tree in the correct format */
+void ukkonen_print(UkkonenTree *tree);
 
-/* Maak nieuwe node aan */
-TreeNode* create_node(int start, int* end);
+/** Get the length of the contents of an edge (above the given node)*/
+size_t ukkonen_node_len(UkkonenTree *tree, UkkonenNode *node);
 
-/* Maak nieuwe info struct aan */
-UkkonenInfo* create_info(TreeNode* root);
-
-/* Maak nieuwe active pointer aan */
-ActivePointer* create_active_pointer(TreeNode* root);
-
-/* Maak LinkedList item aan met node als waarde */
-SimpleDFSLinkedList* create_dfs_ll(TreeNode* node);
-
-/* Verwijder de gegeven boom */
-void free_tree(SuffixTree*);
-
-/* Verwijder de gegeven edge */
-void free_edge(TreeEdge*);
-
-/* Verwijder de gegeven node */
-void free_node(TreeNode*);
-
-/* Verwijder de gegeven active pointer */
-void free_active_pointer(ActivePointer*);
-
-/* Verwijder het gegeven info struct */
-void free_info(UkkonenInfo*);
-
-/* Maak nieuwe suffixboom aan voor een gegeven string */
-SuffixTree* ukkonen(char s[], int len);
-
-/* Print de gegeven boom */
-void print_tree(SuffixTree*);
-
-#endif
+/** let ukkonen ingest the char at this->data[this->leaf_it++]*/
+int ukkonen_ingest_next(UkkonenTree *tree);

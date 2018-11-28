@@ -1,1 +1,1 @@
-ukkonen: src/ukkonen/ukkonen.c src/ukkonen/ukkonen.h
+ukkonen: ukkonen/main.c ukkonen/operations.c ukkonen/structure.c ukkonen/ukkonen.h

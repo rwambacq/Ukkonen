@@ -115,7 +115,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\ukkonen\ukkonen.c" />
+    <ClCompile Include="..\src\ukkonen\main.c" />
+    <ClCompile Include="..\src\ukkonen\operations.c" />
+    <ClCompile Include="..\src\ukkonen\structure.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ukkonen\ukkonen.h" />

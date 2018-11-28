@@ -50,7 +50,7 @@ else
         echo "";
         echo "COMPILATIE EN MINIMALE TEST GESLAAGD"
         echo "OK"
-        exit 0
+        #exit 0
     fi
 fi
 echo ""
@@ -61,7 +61,7 @@ echo "Zorg ervoor dat volgende twee exitcodes 0 zijn."
 echo "COMPILATIE exitcode = $makeExit"
 echo "MINIMALE TEST exitcode = ${diffExit:-?}"
 echo "FOUT"
-exit 1
+#exit 1
 #MAKEFILE-START
 flags = -g -std=c11 -Wall -lm 
 
