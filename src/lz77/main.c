@@ -16,46 +16,53 @@
 #include "ukkonen.h"
 #include "compress.h"
 
+void print_wrong_input(){
+    printf("Wrong number of arguments were given.\n");
+    printf("Use flag -c to compress or flag -d to decompress.");
+    printf("The -o flag can be added to either to optimize memory usage.");
+}
+
 int main(int argc, char* argv[]) {
 
-	/*int buffersize = 64;
-	int size = 0;
-	char* stringsje = (char*)malloc(buffersize * sizeof(char));
-	char lees;
-	UkkonenTree* tree = ukkonen_make();
+    bool c = false;
+    bool d = false;
+    bool opt = false;
 
+    if(argc == 1){
+        print_wrong_input();
+        return -1;
+    }
+    for(int i = 1; i < argc; i++){
+        if(strcmp(argv[i], "-c") == 0){
+            c = true;
+        } else if(strcmp(argv[i], "-d") == 0){
+            d = true;
+        } else if(strcmp(argv[i], "-o") == 0){
+            opt = true;
+        } else {
+            print_wrong_input();
+            return -1;
+        }
+    }
 
-	while ((lees = (char)fgetc(stdin)) != EOF) {
-		if (size == buffersize) {
-			stringsje = realloc(stringsje, sizeof(char) * (buffersize * 2));
-			buffersize *= 2;
-		}
-		stringsje[size] = lees;
-		size++;
-	}	
-	if (size == buffersize) {
-		stringsje = realloc(stringsje, sizeof(char) * (buffersize + 1));
-		buffersize += 1;
-	}
-	stringsje[size] = '\0';
+    if(c && d){
+        print_wrong_input();
+        return -1;
+    }
 
-	tree->data = stringsje;
-
-	//tree->data = "banaanbaan";
-
-	compress(tree, size);
-	
-	//while (tree->data[tree->leaf_it + 1] != '\0') {
-	//ukkonen_ingest_next(tree);
-	//}
-
-	//ukkonen_print(tree);
-	ukkonen_free(tree);*/
-	
-	//getchar();
-
-	decompress();
-
+	if(c) {
+	    if(opt){
+	        compress_optimized();
+	    } else {
+            compress();
+        }
+    } else if(d) {
+	    if(opt){
+            decompress_optimized();
+	    } else {
+            decompress();
+        }
+    }
 	return 0;
 
 }

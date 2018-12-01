@@ -9,10 +9,40 @@
 
 #define CHILD(node, x) ((node)->childs[(unsigned char)((x)-1)])
 
-void compress (UkkonenTree* tree, int size) {
-	/*while (tree->data[tree->leaf_it + 1] != '\0') {
-		ukkonen_ingest_next(tree);
-	}*/
+
+int compress(){
+	int buffersize = 64;
+	int size = 0;
+	char* stringsje = (char*)malloc(buffersize * sizeof(char));
+	char lees;
+
+	UkkonenTree* tree = ukkonen_make();
+
+	while ((lees = (char)fgetc(stdin)) != EOF) {
+		if (size == buffersize) {
+			stringsje = realloc(stringsje, sizeof(char) * (buffersize * 2));
+			buffersize *= 2;
+		}
+		stringsje[size] = lees;
+		size++;
+	}
+
+	if (size == buffersize) {
+		stringsje = realloc(stringsje, sizeof(char) * (buffersize + 1));
+		buffersize += 1;
+	}
+
+	stringsje[size] = '\0';
+	tree->data = stringsje;
+
+	compress_tree(tree, size);
+	ukkonen_free(tree);
+
+    return 0;
+}
+
+int compress_tree (UkkonenTree* tree, int size) {
+
 	if (size > 0) {
 		uint32_t p = (uint32_t)0, l = (uint32_t)0;
 		uint8_t next = (uint8_t)tree->data[0];
@@ -26,21 +56,13 @@ void compress (UkkonenTree* tree, int size) {
 		fwrite(vierbytes, 4, 2, stdout);
 		fwrite(eenbyte, 1, 1, stdout);
 
-		/*printf("%" PRIu32 " ", p);
-		printf("%" PRIu32 " ", l);
-		printf("%" PRIu8 "\n", next);*/
 		if (tree->data[0] != '\0') {
 			ukkonen_ingest_next(tree);
 
 			uint32_t next_one = 1;
 
 			while (tree->data[next_one] != '\0') {
-				//printf("Basis loop afgelopen\n");
 				LongestMatch* lm = find_longest_match(tree, next_one);
-				
-				/*write(1, (uint32_t)(lm->p), 4);
-				write(1, (uint32_t)(lm->l), 4);
-				write(1, (uint8_t)(tree->data[next_one + lm->l]), 1);*/
 
 				vierbytes[0] = (uint32_t)(lm->p);
 				vierbytes[1] = (uint32_t)(lm->l);
@@ -48,10 +70,6 @@ void compress (UkkonenTree* tree, int size) {
 
 				fwrite(vierbytes, 4, 2, stdout);
 				fwrite(eenbyte, 1, 1, stdout);
-
-				/*printf("%" PRIu32 " ", lm->p);
-				printf("%" PRIu32 " ", lm->l);
-				printf("%" PRIu8 "\n", tree->data[next_one + lm->l]);*/
 
 				if (tree->data[next_one + lm->l + 1] != '\0') {
 					ukkonen_ingest_next(tree);
@@ -66,6 +84,7 @@ void compress (UkkonenTree* tree, int size) {
 			}
 		}
 	}
+	return 0;
 }
 
 LongestMatch* find_longest_match(UkkonenTree* tree, uint32_t start) {
@@ -111,12 +130,44 @@ LongestMatch* find_longest_match(UkkonenTree* tree, uint32_t start) {
 	return to_return;
 }
 
-void compress_optimized (UkkonenTree* tree, int size) {
-	/*while (tree->data[tree->leaf_it + 1] != '\0') {
-	ukkonen_ingest_next(tree);
-	}*/
+int compress_optimized () {
+	char lees = 'a';
+	int size = 0;
 
+	while(lees != EOF) {
 
+		int buffersize = 64;
+		char *stringsje = (char *) malloc(buffersize * sizeof(char));
+
+		if(size != 0){
+			stringsje[0] = lees;
+			size = 1;
+		}
+
+		UkkonenTree *tree = ukkonen_make();
+
+		while (((lees = (char) fgetc(stdin)) != EOF) && size < MAX_BUFFER) {
+			stringsje[size] = lees;
+			size++;
+			if ((size == buffersize) && (buffersize != MAX_BUFFER)) {
+				stringsje = realloc(stringsje, sizeof(char) * (buffersize * 2));
+				buffersize *= 2;
+			}
+		}
+
+		if (size == buffersize) {
+			stringsje = realloc(stringsje, sizeof(char) * (buffersize + 1));
+			buffersize += 1;
+		}
+
+		stringsje[size] = '\0';
+		tree->data = stringsje;
+
+		compress_tree(tree, size);
+		ukkonen_free(tree);
+		free(stringsje);
+	}
+	return 0;
 }
 
 #undef CHILD

@@ -1,5 +1,6 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
+#define MAX_BUFFER 1048576
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,13 +21,17 @@ typedef struct LongestMatch {
 typedef struct DecompInput {
 	uint32_t p;
 	uint32_t l;
-	uint32_t karakter;
+	uint8_t karakter;
 } DecompInput ;
 
-void compress(UkkonenTree* tree, int size);
+int compress();
 
-void compress_optimized(UkkonenTree* tree, int size);
+int compress_optimized();
 
-void decompress();
+int decompress();
+
+int decompress_optimized();
 
 LongestMatch* find_longest_match(UkkonenTree* tree, uint32_t start);
+
+int compress_tree (UkkonenTree* tree, int size);
