@@ -115,12 +115,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\ukkonen\main.c" />
-    <ClCompile Include="..\src\ukkonen\operations.c" />
-    <ClCompile Include="..\src\ukkonen\structure.c" />
+    <ClCompile Include="..\src\lz77\compress.c" />
+    <ClCompile Include="..\src\lz77\decompress.c" />
+    <ClCompile Include="..\src\lz77\main.c" />
+    <ClCompile Include="..\src\lz77\operations.c" />
+    <ClCompile Include="..\src\lz77\structure.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\ukkonen\ukkonen.h" />
+    <ClInclude Include="..\src\lz77\compress.h" />
+    <ClInclude Include="..\src\lz77\ukkonen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
