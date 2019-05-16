@@ -1,0 +1,3 @@
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/cmake-build-debug/CMakeFiles/Ukkonen.dir
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/cmake-build-debug/CMakeFiles/rebuild_cache.dir

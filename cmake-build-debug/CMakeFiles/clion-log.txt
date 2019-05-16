@@ -1,0 +1,4 @@
+C:\Users\ruben\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\183.4284.156\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" "C:\Users\ruben\Documents\DesktopFolders\3e_Bach_Informatica\Algoritmen en Datastructuren 3\Ukkonen"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/cmake-build-debug

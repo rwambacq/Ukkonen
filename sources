@@ -1,1 +1,2 @@
-ukkonen: ukkonen/main.c ukkonen/operations.c ukkonen/structure.c ukkonen/ukkonen.h
+ukkonen: ukkonen_old/ukkonen.c
+lz77: lz77/compress.c lz77/decompress.c lz77/main.c lz77/operations.c lz77/structure.c

@@ -12,7 +12,6 @@ int decompress() {
 
 	char* buffer = malloc(buffersize * sizeof(char));
 	uint32_t pos = 0;
-
 	while (fread(di, 9, 1, stdin)) {
 
 		if (di->l== 0) {

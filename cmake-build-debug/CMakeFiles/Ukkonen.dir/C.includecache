@@ -1,0 +1,62 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/compress.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+inttypes.h
+-
+ukkonen.h
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/ukkonen.h
+compress.h
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/compress.h
+
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/compress.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+stdint.h
+-
+ukkonen.h
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/ukkonen.h
+
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/decompress.c
+stdio.h
+-
+stdlib.h
+-
+stdint.h
+-
+ukkonen.h
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/ukkonen.h
+compress.h
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/compress.h
+
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/main.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+ukkonen.h
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/ukkonen.h
+compress.h
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/compress.h
+
+C:/Users/ruben/Documents/DesktopFolders/3e_Bach_Informatica/Algoritmen en Datastructuren 3/Ukkonen/src/lz77/ukkonen.h
+stdlib.h
+-
+

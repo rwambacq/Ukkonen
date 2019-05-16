@@ -1,1 +1,0 @@
-Ik heb geen specifieke testbestanden, ik heb al mijn tests uitgevoerd in mijn main, maar een lege folder kan blijkbaar niet worden gezipt, dus ik steek er dan maar een placeholder bestand in.

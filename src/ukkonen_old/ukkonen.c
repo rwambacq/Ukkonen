@@ -144,7 +144,7 @@ int find_index(TreeNode* te_vinden, SimpleDFSLinkedList* huidige_node, int huidi
 	}
 }
 
-/*SuffixTree* ukkonen(char s[], int len) {
+SuffixTree* ukkonen(char s[], int len) {
 	// TODO: Create suffix tree from given tree with ukkonen
 	SuffixTree* boom = create_tree(s, len);
 	UkkonenInfo* info = create_info(boom->root);
@@ -258,7 +258,7 @@ int find_index(TreeNode* te_vinden, SimpleDFSLinkedList* huidige_node, int huidi
 		}
 	}
 	return boom;
-}*/
+}
 
 void print_tree(SuffixTree* tree) {
 	SimpleDFSLinkedList* wortel = create_dfs_ll(tree->root);
